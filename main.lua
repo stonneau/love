@@ -1,46 +1,54 @@
-local ps = require "physics"
-local force = require "force"
+local collision = require "collision"
+local ps     = require "physics"
+local force  = require "force"
+local draw   = require "draw"
+local factories = require "factories"
+local player = require "player"
+require "input"
+
 function love.load()
     g = love.graphics
     
+    curve = love.math.newBezierCurve( {0,0,100, 100} )
+    pointss = curve:render(10)
     playerColor = {255,0,128}
     groundColor = {25,200,25}
-    p = {} 
-    p.width = 25
-    p.height = 40
     
+    input_system["p1"] = {left ="left", right ="right" }
+    input_system["p2"] = {left ="q", right ="d" }
+    factories.make_player(1000, {20, 20}, 10, "p1")
     
-    local sphere1 = {r = 2}
-    local forces1 = {force.gravity(100), force.air_resistance(sphere1)}
-    local id1, p1 = ps.add_entity(20, 20, 100, forces1)
+    factories.make_player(100, {200, 200}, 10, "p2")
     
-    local sphere2 = {r = 2}
-    local forces2 = {force.gravity(100), force.air_resistance(sphere2)}
-    local id2, p2 = ps.add_entity(60, 20, 100, forces2, "p2")
-    
+    factories.make_ground(5, 210, 1000, 10, "sol")
+    physics_entities["p2"].v[1]=1
+    physics_entities["p2"].v[2]=-1
+    --local sphere1 = {r = 2}
+    --local forces1 = {force.gravity(100), force.air_resistance(sphere1)}
+    --local id1, p1 = ps.add_entity(20, 20, 100, forces1)
+        
     --p2.v[1]=1
    -- p2:set_dy(-0.1)
 end
  
 function love.update(dt)
+    player:update(dt)
     ps:update(dt)
+    collision:update(dt)
 end
  
 function love.draw()
     -- round down our x, y values
-    for id, e in pairs(physics_entities) do
-        local x, y = e.pos[1], e.pos[2]
-         -- draw the player shape
-        g.setColor(playerColor)
-        g.rectangle("fill", x, y, p.width, p.height)
+    for _, draw_func in pairs(draw_entities) do
+        draw_func()
+    end
+    for t = 1, 100, 5 do
+       g.point(curve:evaluate(t / 100))
     end
 end
  
 function love.keyreleased(key)
     if key == "escape" then
         love.event.push("q")   -- actually causes the app to quit
-    end
-    if (key == "right") or (key == "left") then
-        p:stop()
     end
 end
