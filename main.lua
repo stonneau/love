@@ -3,8 +3,10 @@ local ps     = require "physics"
 local force  = require "force"
 local draw   = require "draw"
 local factories = require "factories"
-local player = require "player"
 require "input"
+require "fsm"
+
+local player = require "player"
 
 function love.load()
     g = love.graphics
@@ -16,13 +18,13 @@ function love.load()
     
     input_system["p1"] = {left ="left", right ="right" }
     input_system["p2"] = {left ="q", right ="d" }
-    factories.make_player(1000, {20, 20}, 10, "p1")
+    factories.make_player(1000000, {20, 20}, 10, "p1")
     
-    factories.make_player(100, {200, 200}, 10, "p2")
+    factories.make_player(10000, {200, 200}, 10, "p2")
     
     factories.make_ground(5, 210, 1000, 10, "sol")
-    physics_entities["p2"].v[1]=1
-    physics_entities["p2"].v[2]=-1
+    --physics_entities["p2"].v[1]=20
+    --physics_entities["p2"].v[2]=-800
     --local sphere1 = {r = 2}
     --local forces1 = {force.gravity(100), force.air_resistance(sphere1)}
     --local id1, p1 = ps.add_entity(20, 20, 100, forces1)

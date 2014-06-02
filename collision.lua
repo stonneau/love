@@ -3,9 +3,11 @@ local HC = require "HardonCollider"
 local collision_functions = {} -- double indexed by types
 
 local function player_ground(dt, player, ground, mtv_x, mtv_y)
-    player_system.set_state(player.id, "ground")
+    --player_system.set_state(player.id, "ground")
+    players[player.id].env_fsm.push_input("ground")
     player.v[2] = 0
-    --local x, y = print(player._center.x, player._center.y) -- bugs without this line ???
+    player.pos[2] = player.pos[2] + (mtv_y or 0)
+    player.pos[1] = player.pos[1] + (mtv_x or 0)
     player:moveTo(player.pos[1], player.pos[2])
 end
 

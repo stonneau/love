@@ -9,7 +9,6 @@ factories =
         local player = player_system.init_player(id, mass, radius)
         local entity = collision.add_circle(pos[1], pos[2], radius, id, "player")
         ps.add_entity(entity, mass, id, pos[1], pos[2])
-        forces_entities[id] = player.states["air"].forces
         draw.add_draw_entity(id, rawget(entity, "_center"))
         return id
     end;
