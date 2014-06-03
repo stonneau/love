@@ -2,11 +2,11 @@ local collision = require "collision"
 local ps     = require "physics"
 local force  = require "force"
 local draw   = require "draw"
-local factories = require "factories"
-require "input"
+local input = require "input"
 require "fsm"
-
+require "controller"
 local player = require "player"
+local factories = require "factories"
 
 function love.load()
     g = love.graphics
@@ -16,11 +16,11 @@ function love.load()
     playerColor = {255,0,128}
     groundColor = {25,200,25}
     
-    input_system["p1"] = {left ="left", right ="right" }
-    input_system["p2"] = {left ="q", right ="d" }
-    factories.make_player(1000000, {20, 20}, 10, "p1")
+    local p1_inputs = {left ="left", right ="right" }
+    local p2_inputs = {left ="q", right ="d" }
+    factories.make_player(1000000, {20, 20}, 10, "p1", p1_inputs)
     
-    factories.make_player(10000, {200, 200}, 10, "p2")
+    factories.make_player(10000, {200, 200}, 10, "p2", p2_inputs)
     
     factories.make_ground(5, 210, 1000, 10, "sol")
     --physics_entities["p2"].v[1]=20
@@ -34,6 +34,7 @@ function love.load()
 end
  
 function love.update(dt)
+    input:update(dt)
     player:update(dt)
     ps:update(dt)
     collision:update(dt)

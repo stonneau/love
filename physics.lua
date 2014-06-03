@@ -12,12 +12,6 @@ end
 physics_system = {
 add_entity = function(collision_shape, m, id, x, y)
     local entity = collision_shape
-    --[[local entity = {} 
-    id = id or tostring(entity)
-    setmetatable(entity, { __tostring = function(t) 
-        return "physics entity" .. id .. "\n" .. "position x: " .. entity.pos[1].. "y :" .. entity.pos[2] .. "\n speed dx: " .. entity.v[1] .. " dy: ".. entity.v[2] .. 
-        "\n forces fx: " .. entity.f[1] .. " fy: ".. entity.f[2] .. "\n"
-    end} ) ]]--
     if physics_entities[id] then return nil end
     entity.pos = {x or 0, y or 0}
     entity.v = {0, 0}

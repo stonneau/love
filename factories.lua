@@ -2,10 +2,13 @@ local ps = physics_system
 local force = force_system
 local draw = draw_system
 local collision = collision_system
+local controller = controller_system
+local input = input_system
 
 factories = 
 {
-    make_player = function(mass, pos, radius, id)
+    make_player = function(mass, pos, radius, id, inputs)
+        input.add_player_input(id, inputs)
         local player = player_system.init_player(id, mass, radius)
         local entity = collision.add_circle(pos[1], pos[2], radius, id, "player")
         ps.add_entity(entity, mass, id, pos[1], pos[2])
