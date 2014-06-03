@@ -7,7 +7,7 @@ require "fsm"
 require "controller"
 local player = require "player"
 local factories = require "factories"
-
+local vars = require "control_var"
 function love.load()
     g = love.graphics
     
@@ -16,15 +16,15 @@ function love.load()
     playerColor = {255,0,128}
     groundColor = {25,200,25}
     
-    local p1_inputs = {left ="left", right ="right" }
-    local p2_inputs = {left ="q", right ="d" }
-    factories.make_player(1000000, {20, 20}, 10, "p1", p1_inputs)
+    local p1_inputs = {left ="left", right ="right", up = "up" }
+    local p2_inputs = {left ="q", right ="d", up = "z" }
+    factories.make_player(vars.player_mass, {20, 20}, 10, "p1", p1_inputs)
     
-    factories.make_player(10000, {200, 200}, 10, "p2", p2_inputs)
+    factories.make_player(vars.player_mass, {200, 200}, 10, "p2", p2_inputs)
     
     factories.make_ground(5, 210, 1000, 10, "sol")
-    --physics_entities["p2"].v[1]=20
-    --physics_entities["p2"].v[2]=-800
+    physics_entities["p2"].v[1]=40
+    physics_entities["p2"].v[2]=-160
     --local sphere1 = {r = 2}
     --local forces1 = {force.gravity(100), force.air_resistance(sphere1)}
     --local id1, p1 = ps.add_entity(20, 20, 100, forces1)
@@ -50,8 +50,4 @@ function love.draw()
     end
 end
  
-function love.keyreleased(key)
-    if key == "escape" then
-        love.event.push("q")   -- actually causes the app to quit
-    end
-end
+

@@ -9,27 +9,6 @@ local kb = love.keyboard
 
 players = {}
 
---[[local function input_ground(id, mass)
-    local buttons = player_inputs[id]
-    return function(player, dt)
-        if kb.isDown(buttons["left"]) then
-            ps.add_force(id, - mass * 100, 0)
-        end
-        if kb.isDown(buttons["right"]) then
-            ps.add_force(id,  mass * 100, 0)     
-        end
-    end
-end
-
-local function input_air(id, mass)
-    local buttons = player_inputs[id]
-    return function(player, dt)
-        if kb.isDown(buttons["right"]) then
-            ps.add_force(id, mass, 0)        
-        end
-    end
-end ]]--
-
 local function init_states(id, mass, radius)
     local air, ground
     air = 
@@ -50,7 +29,7 @@ local function init_states(id, mass, radius)
     }
     ground = 
     {
-        forces = {force.air_resistance(radius)};
+        forces = {force.air_resistance(radius, 20)};
         update = function(slef, inputs, dt)
             for _, input in pairs(inputs) do
                 if input == "air" then 

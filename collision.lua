@@ -3,7 +3,6 @@ local HC = require "HardonCollider"
 local collision_functions = {} -- double indexed by types
 
 local function player_ground(dt, player, ground, mtv_x, mtv_y)
-    --player_system.set_state(player.id, "ground")
     players[player.id].env_fsm.push_input("ground")
     player.v[2] = 0
     player.pos[2] = player.pos[2] + (mtv_y or 0)
