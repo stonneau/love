@@ -2,14 +2,20 @@ local collision = require "collision"
 local ps     = require "physics"
 local force  = require "force"
 local draw   = require "draw"
-local input = require "input"
+local input_system = require "input"
 require "fsm"
 require "controller"
 local player = require "player"
 local factories = require "factories"
-local vars = require "control_var"
+local var_system = require "control_var"
+
+gui = require "Quickie"
+
+
 function love.load()
     g = love.graphics
+    
+    var_system:init()
     
     curve = love.math.newBezierCurve( {0,0,100, 100} )
     pointss = curve:render(10)
@@ -32,12 +38,13 @@ function love.load()
     --p2.v[1]=1
    -- p2:set_dy(-0.1)
 end
- 
+  
 function love.update(dt)
-    input:update(dt)
+    input_system:update(dt)
     player:update(dt)
     ps:update(dt)
     collision:update(dt)
+    var_system:update(dt)
 end
  
 function love.draw()
@@ -48,6 +55,9 @@ function love.draw()
     for t = 1, 100, 5 do
        g.point(curve:evaluate(t / 100))
     end
+    
+    -- draw_gui
+    gui.core.draw()
 end
  
 
