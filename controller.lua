@@ -2,7 +2,7 @@ local fsm = fsm_system
 local ps = physics_system 
 
 
-local function ground_state(id, mass)
+local function ground_state(id, mass_id)
     local left, right, up, nothing
     left = 
     {
@@ -14,7 +14,7 @@ local function ground_state(id, mass)
             for _, input in pairs(inputs) do
                 if input == "left" then
                     stay = true
-                    ps.add_force(id, - mass * vars.ground_acc, 0)
+                    ps.add_force(id, - vars[mass_id] * vars.ground_acc, 0)
                     time_elapsed = prev_time_elapsed + dt
                 end
                 if input == "right" then
@@ -39,7 +39,7 @@ local function ground_state(id, mass)
             for _, input in pairs(inputs) do
                 if input == "right" then
                     stay = true
-                    ps.add_force(id, mass * vars.ground_acc, 0)
+                    ps.add_force(id, vars[mass_id] * vars.ground_acc, 0)
                     time_elapsed = prev_time_elapsed + dt
                 end
                 if input == "left" then
@@ -68,7 +68,7 @@ local function ground_state(id, mass)
             return nothing
         end;
         enter = function(self, dt)
-            ps.add_force(id, 0, -mass * vars.jump_acc)
+            ps.add_force(id, 0, -vars[mass_id] * vars.jump_acc)
             players[id].env_fsm.push_input("air")
         end;
     }
@@ -95,7 +95,7 @@ local function ground_state(id, mass)
     return nothing
 end
 
-local function air_state(id, mass)
+local function air_state(id, mass_id)
     local left, right, nothing
     left = 
     {
@@ -105,7 +105,7 @@ local function air_state(id, mass)
             self.time_elapsed = 0
             for _, input in pairs(inputs) do
                 if input == "left" then
-                    ps.add_force(id, - mass * vars.air_acc, 0)
+                    ps.add_force(id, - vars[mass_id] * vars.air_acc, 0)
                     time_elapsed = prev_time_elapsed + dt
                     return self
                 elseif input == "right" then
@@ -127,7 +127,7 @@ local function air_state(id, mass)
             for _, input in pairs(inputs) do
                 if input == "right" then
                     stay = true
-                    ps.add_force(id, mass * vars.air_acc, 0)
+                    ps.add_force(id, vars[mass_id] * vars.air_acc, 0)
                     time_elapsed = prev_time_elapsed + dt
                 end
                 if input == "left" then

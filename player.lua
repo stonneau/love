@@ -9,11 +9,11 @@ local kb = love.keyboard
 
 players = {}
 
-local function init_states(id, mass, radius)
+local function init_states(id, mass_id, radius)
     local air, ground
     air = 
     {
-        forces = {force.gravity(mass), force.air_resistance(radius, sliders.air_friction_x, sliders.air_friction_y)};
+        forces = {force.gravity(mass_id), force.air_resistance(radius, sliders.air_friction_x, sliders.air_friction_y)};
         update = function(slef, inputs, dt)
             for _, input in pairs(inputs) do
                 if input == "ground" then
@@ -25,7 +25,7 @@ local function init_states(id, mass, radius)
             players[id].current_state = self
             forces_entities[id] = self.forces
         end;     
-        control_fsm = fsm.new(controller.air_state(id, mass))
+        control_fsm = fsm.new(controller.air_state(id, mass_id))
     }
     ground = 
     {
@@ -41,7 +41,7 @@ local function init_states(id, mass, radius)
             players[id].current_state = self
             forces_entities[id] = self.forces
         end;
-        control_fsm = fsm.new(controller.ground_state(id, mass))
+        control_fsm = fsm.new(controller.ground_state(id, mass_id))
     }
     air:enter(0)
     return air
@@ -49,9 +49,9 @@ end
 
 player_system =
 {
-    init_player = function(id, mass, radius)
+    init_player = function(id, mass_id, radius)
         players[id] = {}
-        local init_state = init_states(id, mass, radius)
+        local init_state = init_states(id, mass_id, radius)
         players[id].env_fsm = fsm.new(init_state)
         return players[id]
     end;

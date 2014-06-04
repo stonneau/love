@@ -10,13 +10,13 @@ local function compute_forces(dt)
 end
 
 physics_system = {
-add_entity = function(collision_shape, m, id, x, y)
+add_entity = function(collision_shape, mass_id, id, x, y)
     local entity = collision_shape
     if physics_entities[id] then return nil end
     entity.pos = {x or 0, y or 0}
     entity.v = {0, 0}
     entity.f = {0, 0}
-    entity.m = m or 1
+    entity.mass_id = mass_id
     physics_entities[id] = entity
     return id, entity
 end;
@@ -28,7 +28,7 @@ update = function (self, dt)
     compute_forces(dt); 
     for id, e in pairs(physics_entities) do
         for i = 1, 2, 1 do
-            e.v[i]= e.v[i] + e.f[i] / e.m * dt
+            e.v[i]= e.v[i] + e.f[i] / vars[e.mass_id] * dt
             e.pos[i] = e.pos[i] + e.v[i] * dt
             e.f[i] = 0
         end

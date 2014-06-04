@@ -1,3 +1,5 @@
+gui = require "Quickie"
+
 local collision = require "collision"
 local ps     = require "physics"
 local force  = require "force"
@@ -9,14 +11,11 @@ local player = require "player"
 local factories = require "factories"
 local var_system = require "control_var"
 
-gui = require "Quickie"
 
 
 function love.load()
     g = love.graphics
-    
-    var_system:init()
-    
+        
     curve = love.math.newBezierCurve( {0,0,100, 100} )
     pointss = curve:render(10)
     playerColor = {255,0,128}
@@ -24,9 +23,9 @@ function love.load()
     
     local p1_inputs = {left ="left", right ="right", up = "up" }
     local p2_inputs = {left ="q", right ="d", up = "z" }
-    factories.make_player(vars.player_mass, {20, 20}, 10, "p1", p1_inputs)
+    factories.make_player("player_mass", {20, 20}, 10, "p1", p1_inputs)
     
-   -- factories.make_player(vars.player_mass, {200, 200}, 10, "p2", p2_inputs)
+   -- factories.make_player("player_mass", {200, 200}, 10, "p2", p2_inputs)
     
     factories.make_ground(-2000, 210, 5000, 10, "sol")
    -- physics_entities["p2"].v[1]=40

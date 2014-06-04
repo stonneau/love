@@ -7,11 +7,11 @@ local input = input_system
 
 factories = 
 {
-    make_player = function(mass, pos, radius, id, inputs)
+    make_player = function(mass_id, pos, radius, id, inputs)
         input.add_player_input(id, inputs)
-        local player = player_system.init_player(id, mass, radius)
+        local player = player_system.init_player(id, mass_id, radius)
         local entity = collision.add_circle(pos[1], pos[2], radius, id, "player")
-        ps.add_entity(entity, mass, id, pos[1], pos[2])
+        ps.add_entity(entity, mass_id, id, pos[1], pos[2])
         draw.add_draw_entity(id, rawget(entity, "_center"))
         return id
     end;
