@@ -13,7 +13,7 @@ function love.keyreleased(key)
    end
 end]]--
 
-local time_to_die = 0.3
+local time_to_die = 0.1
 
 input_system = 
 {

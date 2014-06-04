@@ -26,11 +26,11 @@ function love.load()
     local p2_inputs = {left ="q", right ="d", up = "z" }
     factories.make_player(vars.player_mass, {20, 20}, 10, "p1", p1_inputs)
     
-    factories.make_player(vars.player_mass, {200, 200}, 10, "p2", p2_inputs)
+   -- factories.make_player(vars.player_mass, {200, 200}, 10, "p2", p2_inputs)
     
-    factories.make_ground(5, 210, 1000, 10, "sol")
-    physics_entities["p2"].v[1]=40
-    physics_entities["p2"].v[2]=-160
+    factories.make_ground(-2000, 210, 5000, 10, "sol")
+   -- physics_entities["p2"].v[1]=40
+    --physics_entities["p2"].v[2]=-160
     --local sphere1 = {r = 2}
     --local forces1 = {force.gravity(100), force.air_resistance(sphere1)}
     --local id1, p1 = ps.add_entity(20, 20, 100, forces1)

@@ -58,13 +58,8 @@ local function ground_state(id, mass)
     {
         time_elapsed = 0;
         update = function(self, inputs, dt)
-            local prev_time_elapsed = self.time_elapsed
-            self.time_elapsed = 0
             for _, input in pairs(inputs) do
-                if input == "up" then
-                    time_elapsed = prev_time_elapsed + dt
-                    return self
-                elseif input == "left" then
+                if input == "left" then
                     return left
                 elseif input == "right" then
                     return right
@@ -80,18 +75,18 @@ local function ground_state(id, mass)
     nothing =
     {
         time_elapsed = 0;
-        update = function(self, inputs, dt)
-            for _, input in pairs(inputs) do
-                if input == "right" then    
-                    return right
+        update = function(self, inputs, dt)    
+            for _, input in pairs(inputs) do        
+                if input == "up" then    
+                    return up
                 elseif input == "left" then
                     return left
-                elseif input == "up" then
-                    return up
+                elseif input == "right" then
+                    return right
                 end
             end
             -- damping factor
-            physics_entities[id].v[1] = physics_entities[id].v[1] * (1 - 2 *dt)
+           -- physics_entities[id].v[1] = physics_entities[id].v[1] * (1 - 2 *dt)
             return self
         end;
         enter = function(self, dt)
@@ -147,7 +142,7 @@ local function air_state(id, mass)
     nothing =
     {
         time_elapsed = 0;
-        update = function(self, inputs, dt)
+        update = function(self, inputs, dt)    
             for _, input in pairs(inputs) do
                 if input == "right" then    
                     return right
@@ -158,7 +153,7 @@ local function air_state(id, mass)
             -- damping factor
             return self
         end;
-        enter = function(self, dt)
+        enter = function(self, dt)       
         end;
     }
     return nothing

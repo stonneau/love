@@ -5,16 +5,15 @@ local function minus_sign(val)
 end
 
 force_system = {
-air_resistance = function (radius, cx, cy) -- approximate to spheres
-    cx = cx or 0.5 -- frottement dans l air
-    cy = cy or 0.5 -- frottement dans l air
-    local surface = radius * radius * pi
-    local val_x = (1 / 2) * 1.293 * surface * cx -- masse volumique de l air
-    local val_y = (1 / 2) * 1.293 * surface * cy -- masse volumique de l air
+air_resistance = function (radius, coeffx, coeffy) -- approximate to spheres
+   local surface = radius * radius * pi
+    coeffy = coeffy or coeffx
+    local val_x = (1 / 2) * 1.293 * surface -- masse volumique de l air
+    local val_y = (1 / 2) * 1.293 * surface -- masse volumique de l air
     return function(force_accum, speed)
-        force_accum[1] = force_accum[1] + val_x * minus_sign(speed[1]) *
+        force_accum[1] = force_accum[1] + val_x * coeffx.value * minus_sign(speed[1]) *
         speed[1] * speed[1]
-        force_accum[2] = force_accum[2] + val_y * minus_sign(speed[2]) *
+        force_accum[2] = force_accum[2] + val_y * coeffy.value * minus_sign(speed[2]) *
         speed[2] * speed[2]
     end
 end;
