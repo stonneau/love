@@ -22,7 +22,8 @@ sliders   =
     air_friction_x = {value = 0.07, max = 0.3};
     air_friction_y = {value = 0.01, max = 0.3};
     ground_friction = {value =  2.0, max = 20};
-    jump_acc = {value = 7666.67, max = 50000}
+    jump_acc = {value = 23333.67, max = 50000};    
+    gravity = {value = 10, max = 200}
 }
 
 for name, data in pairs(sliders) do
@@ -37,6 +38,12 @@ var_system =
 			    gui.Label{text = "player_mass", size = {70}}
 			    gui.Slider{info = sliders.player_mass}
 			    gui.Label{text = ("Value: %.2f"):format(sliders.player_mass.value), size = {70}}
+		    end}
+		    
+	    gui.group{grow = "right", function()
+			    gui.Label{text = "gravity", size = {70}}
+			    gui.Slider{info = sliders.gravity}
+			    gui.Label{text = ("Value: %.2f"):format(sliders.gravity.value), size = {70}}
 		    end}
 		    
          gui.group{grow = "right", function()

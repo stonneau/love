@@ -26,12 +26,15 @@ end;
 update = function (self, dt)
     --clear_Forces(p); /* zero the force accumulators */
     compute_forces(dt); 
-    for id, e in pairs(physics_entities) do
+    
+    for id, e in pairs(physics_entities) do        
+        --print("acc :", e.f[1] / vars[e.mass_id], " ", e.f[2] / vars[e.mass_id] )
         for i = 1, 2, 1 do
             e.v[i]= e.v[i] + e.f[i] / vars[e.mass_id] * dt
             e.pos[i] = e.pos[i] + e.v[i] * dt
             e.f[i] = 0
         end
+        --print("speed :", e.v[1], " ", e.v[2] )
         e:moveTo(e.pos[1], e.pos[2])       
     end
 end;

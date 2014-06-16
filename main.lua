@@ -27,7 +27,7 @@ function love.load()
     
    -- factories.make_player("player_mass", {200, 200}, 10, "p2", p2_inputs)
     
-    factories.make_ground(-2000, 210, 5000, 10, "sol")
+    factories.make_ground(20, 210, 500, 10, "sol")
    -- physics_entities["p2"].v[1]=40
     --physics_entities["p2"].v[2]=-160
     --local sphere1 = {r = 2}

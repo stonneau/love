@@ -29,10 +29,10 @@ local function init_states(id, mass_id, radius)
     }
     ground = 
     {
-        forces = {force.air_resistance(radius, sliders.ground_friction)};
+        forces = {force.gravity(mass_id), force.air_resistance(radius, sliders.ground_friction)};
         update = function(slef, inputs, dt)
             for _, input in pairs(inputs) do
-                if input == "air" then 
+                if input == "air" then
                     return air
                 end
             end

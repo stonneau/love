@@ -1,6 +1,9 @@
 local HC = require "HardonCollider"
 
-local collision_functions = {} -- double indexed by types
+local collision_functions -- collisions entering
+local out_collision_functions -- collisions entering
+
+-- collisions entering
 
 local function player_ground(dt, player, ground, mtv_x, mtv_y)
     players[player.id].env_fsm.push_input("ground")
@@ -24,7 +27,27 @@ function on_collide(dt, shape_a, shape_b, mtv_x, mtv_y)
     end
 end
 
-local collider = HC(100, on_collide)
+-- collisions exiting
+
+local function out_player_ground(dt, player, ground, mtv_x, mtv_y)
+    players[player.id].env_fsm.push_input("air")
+end
+
+out_collision_functions =
+{
+    player = { ground = out_player_ground};
+    ground = { player = function(dt, ground, player) out_player_ground(dt, player, ground) end}
+}
+
+function collision_stop(dt, shape_a, shape_b)
+    local rank_one = out_collision_functions[shape_a.entity_type]
+    if rank_one then 
+        rank_two = rank_one[shape_b.entity_type]
+        return rank_two and rank_two(dt, shape_a, shape_b, mtv_x, mtv_y) or nil
+    end
+end
+
+local collider = HC(100, on_collide, collision_stop)
 
 collision_system  = 
 {

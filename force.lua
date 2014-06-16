@@ -19,7 +19,7 @@ air_resistance = function (radius, coeffx, coeffy) -- approximate to spheres
 end;
 
 gravity = function(mass_id) -- approximate to spheres
-    local res = {0, 98.1 * 2}
+    local res = {0, 98.1 * vars.gravity}
     return function(force_accum, ...)
         force_accum[1] = force_accum[1] + res[1]
         force_accum[2] = force_accum[2] + res[2]  * vars[mass_id]  
