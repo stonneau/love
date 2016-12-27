@@ -1,4 +1,5 @@
-gui = require "Quickie"
+--~ gui = require "Quickie"
+gui = require 'SUIT'
 
 local collision = require "collision"
 local ps     = require "physics"
@@ -15,6 +16,7 @@ local var_system = require "control_var"
 
 function love.load()
     g = love.graphics
+    print ("g", g)
         
     curve = love.math.newBezierCurve( {0,0,100, 100} )
     pointss = curve:render(10)
@@ -37,13 +39,20 @@ function love.load()
     --p2.v[1]=1
    -- p2:set_dy(-0.1)
 end
-  
+
+local kb = love.keyboard
+
 function love.update(dt)
     input_system:update(dt)
     player:update(dt)
     ps:update(dt)
     collision:update(dt)
     var_system:update(dt)
+    if kb.isDown("r") then
+		id = "p1"
+		physics_entities[id].pos={20,20}
+		physics_entities[id]:moveTo(20,20)
+	end
 end
  
 function love.draw()
@@ -51,12 +60,12 @@ function love.draw()
     for _, draw_func in pairs(draw_entities) do
         draw_func()
     end
-    for t = 1, 100, 5 do
-       g.point(curve:evaluate(t / 100))
-    end
+    --~ for t = 1, 100, 5 do
+       --~ g.point(curve:evaluate(t / 100))
+    --~ end
     
     -- draw_gui
-    gui.core.draw()
+    gui.draw()
 end
  
 
